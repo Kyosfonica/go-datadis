@@ -1,5 +1,7 @@
 # Datadis Go Client
 
+**⚠️ Work in progress, experimental**
+
 Go API to read [Datadis](https://datadis.es) energy consumption info.
 
 You'll need https://www.datadis.es account to use this package.
