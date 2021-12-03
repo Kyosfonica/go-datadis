@@ -4,6 +4,43 @@ Go API to read [Datadis](https://datadis.es) energy consumption info.
 
 You'll need https://www.datadis.es account to use this package.
 
+## Example
+
+```Go
+package main
+
+import (
+        "fmt"
+        "os"
+        "time"
+
+        "github.com/rubiojr/go-datadis"
+)
+
+// Fetch datadis last day consumption
+func main() {
+        client := datadis.NewClient()
+        client.Login(os.Getenv("DATADIS_USERNAME"), os.Getenv("DATADIS_PASSWORD"))
+        s, err := client.Supplies()
+        if err != nil {
+                panic(err)
+        }
+
+        now := time.Now()
+        year, month, day := now.Date()
+        // Read yesterday's data
+        date := time.Date(year, month, day-1, 0, 0, 0, 0, now.UTC().Location())
+        data, err := client.ConsumptionData(&s[0], date, date)
+        for _, d := range data {
+                fmt.Println("CUPS: ", d.Cups)
+                fmt.Println("Date: ", d.Date)
+                fmt.Println("Time: ", d.Time)
+                fmt.Printf("Consumption: %f KWh\n", d.Consumption)
+                fmt.Println("Obtained Method: ", d.ObtainMethod)
+        }
+}
+```
+
 ## Building the command line client
 
 ```
