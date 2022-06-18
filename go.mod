@@ -1,3 +1,3 @@
-module github.com/rubiojr/go-datadis
+module github.com/kyofonica/go-datadis
 
 go 1.17

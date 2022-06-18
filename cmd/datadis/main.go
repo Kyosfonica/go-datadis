@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"github.com/kyofonica/go-datadis"
 	"os"
 	"time"
-
-	"github.com/rubiojr/go-datadis"
 )
 
 // Fetch datadis last day consumption
