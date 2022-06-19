@@ -28,7 +28,7 @@ type Supply struct {
 	ValidDateTo     string `json:"validDateTo"`
 }
 
-type Measurment struct {
+type Measurement struct {
 	Cups         string  `json:"cups"`
 	Date         string  `json:"date"`
 	Time         string  `json:"time"`
@@ -61,7 +61,7 @@ func (c *Client) Login(username, password string) error {
 	return err
 }
 
-func (c *Client) ConsumptionData(supply *Supply, from, to time.Time) ([]Measurment, error) {
+func (c *Client) ConsumptionData(supply *Supply, from, to time.Time) ([]Measurement, error) {
 	sto := to.Format("2006/01/02")
 	sfrom := from.Format("2006/01/02")
 	query := fmt.Sprintf("cups=%s&distributorCode=%s&startDate=%s&endDate=%s&measurementType=%d&pointType=%d", supply.Cups, supply.DistributorCode, url.QueryEscape(sfrom), url.QueryEscape(sto), 0, supply.PointType)
@@ -80,7 +80,7 @@ func (c *Client) ConsumptionData(supply *Supply, from, to time.Time) ([]Measurme
 	}
 	defer resp.Body.Close()
 
-	var measurements []Measurment
+	var measurements []Measurement
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return measurements, err

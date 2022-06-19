@@ -6,10 +6,18 @@ import (
 	"time"
 
 	"github.com/rubiojr/go-datadis"
+	"github.com/rubiojr/go-datadis/cmd/storage"
 )
 
 // Fetch datadis last day consumption
 func main() {
+	sqlite, err := storage.NewSqlite()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer sqlite.Close()
+
 	client := datadis.NewClient()
 	client.Login(os.Getenv("DATADIS_USERNAME"), os.Getenv("DATADIS_PASSWORD"))
 	s, err := client.Supplies()
@@ -27,5 +35,10 @@ func main() {
 		fmt.Println("Time: ", d.Time)
 		fmt.Printf("Consumption: %f KWh\n", d.Consumption)
 		fmt.Println("Obtained Method: ", d.ObtainMethod)
+
+		err = sqlite.Writer(&d)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
