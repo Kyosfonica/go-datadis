@@ -1,5 +1,5 @@
 bin:
 	mkdir -p bin
-	go build -o bin/datadis ./cmd/datadis
+	env GOOS=windows GOARCH=amd64 go build -o bin/datadis.exe ./cmd/datadis
 
 .PHONY: bin

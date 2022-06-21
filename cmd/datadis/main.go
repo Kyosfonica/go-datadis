@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/rubiojr/go-datadis"
 	"github.com/rubiojr/go-datadis/cmd/storage"
 )
@@ -18,6 +20,11 @@ func main() {
 	}
 	defer sqlite.Close()
 
+	err = godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	client := datadis.NewClient()
 	client.Login(os.Getenv("DATADIS_USERNAME"), os.Getenv("DATADIS_PASSWORD"))
 	s, err := client.Supplies()
@@ -27,8 +34,9 @@ func main() {
 
 	now := time.Now()
 	year, month, day := now.Date()
-	date := time.Date(year, month, day-1, 0, 0, 0, 0, now.UTC().Location())
-	data, err := client.ConsumptionData(&s[0], date, date)
+	dateFrom := time.Date(year, month, day-4, 0, 0, 0, 0, now.UTC().Location())
+	dateTo := time.Date(year, month, day, 0, 0, 0, 0, now.UTC().Location())
+	data, err := client.ConsumptionData(&s[0], dateFrom, dateTo)
 	for _, d := range data {
 		fmt.Println("CUPS: ", d.Cups)
 		fmt.Println("Date: ", d.Date)
