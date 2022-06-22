@@ -68,7 +68,7 @@ func createDB() (*sql.DB, error) {
 		ObtainMethod string  `json:"obtainMethod"`
 	}
 
-	measurementsTable, err := db.Prepare("CREATE TABLE IF NOT EXISTS measurements (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cups TEXT COLLATE BINARY, date TEXT COLLATE BINARY, time TEXT COLLATE BINARY, consumptionKWh REAL COLLATE BINARY, obtainMethod TEXT COLLATE BINARY)")
+	measurementsTable, err := db.Prepare("CREATE TABLE IF NOT EXISTS measurements (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, cups TEXT COLLATE BINARY, date DATE COLLATE BINARY, time TEXT COLLATE BINARY, consumptionKWh REAL COLLATE BINARY, obtainMethod TEXT COLLATE BINARY)")
 	if err != nil {
 		return nil, err
 	}
