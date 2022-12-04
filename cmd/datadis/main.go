@@ -26,7 +26,11 @@ func main() {
 	}
 
 	client := datadis.NewClient()
-	client.Login(os.Getenv("DATADIS_USERNAME"), os.Getenv("DATADIS_PASSWORD"))
+	err = client.Login(os.Getenv("DATADIS_USERNAME"), os.Getenv("DATADIS_PASSWORD"))
+	if err != nil {
+		panic(err)
+	}
+
 	s, err := client.Supplies()
 	if err != nil {
 		panic(err)
@@ -34,7 +38,7 @@ func main() {
 
 	now := time.Now()
 	year, month, day := now.Date()
-	dateFrom := time.Date(year, month, day-4, 0, 0, 0, 0, now.UTC().Location())
+	dateFrom := time.Date(year, month-2, day, 0, 0, 0, 0, now.UTC().Location())
 	dateTo := time.Date(year, month, day, 0, 0, 0, 0, now.UTC().Location())
 	data, err := client.ConsumptionData(&s[0], dateFrom, dateTo)
 	for _, d := range data {
