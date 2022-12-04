@@ -62,8 +62,8 @@ func (c *Client) Login(username, password string) error {
 }
 
 func (c *Client) ConsumptionData(supply *Supply, from, to time.Time) ([]Measurement, error) {
-	sto := to.Format("2006/01/02")
-	sfrom := from.Format("2006/01/02")
+	sfrom := from.Format("2006/01")
+	sto := to.Format("2006/01")
 	query := fmt.Sprintf("cups=%s&distributorCode=%s&startDate=%s&endDate=%s&measurementType=%d&pointType=%d", supply.Cups, supply.DistributorCode, url.QueryEscape(sfrom), url.QueryEscape(sto), 0, supply.PointType)
 	u := fmt.Sprintf("%s/get-consumption-data?%s", c.baseURL, query)
 	fmt.Println(u)
